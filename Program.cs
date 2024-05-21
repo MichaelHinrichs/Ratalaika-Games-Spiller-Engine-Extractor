@@ -25,7 +25,6 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
             int unknown1 = br.ReadInt32();
             int unknown2 = br.ReadInt32();
             int unknown3 = br.ReadInt32();
-            Directory.CreateDirectory(Path.GetDirectoryName(args[0]) + "\\" + Path.GetFileNameWithoutExtension(args[0]));
 
             MemoryStream fileData = new();
             br.ReadInt16();
@@ -49,11 +48,12 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
             br.Close();
 
             br = new(fileData);
+            string path = Path.GetDirectoryName(args[0]) + "\\" + Path.GetFileNameWithoutExtension(args[0]) + "\\";
             foreach(FileTableEntry file in table)
             {
                 br.BaseStream.Position = file.end - file.Size;
-                Directory.CreateDirectory(Path.GetDirectoryName(args[0]) + "//" + Path.GetFileNameWithoutExtension(args[0]) + "//" + Path.GetDirectoryName(file.name));
-                using FileStream FS = File.Create(Path.GetDirectoryName(args[0]) + "//" + Path.GetFileNameWithoutExtension(args[0]) + "//" + file.name);
+                Directory.CreateDirectory(path + Path.GetDirectoryName(file.name));
+                using FileStream FS = File.Create(path + file.name);
                 BinaryWriter bw = new(FS);
                 bw.Write(br.ReadBytes(file.Size));
                 bw.Close();
