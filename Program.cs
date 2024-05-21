@@ -17,7 +17,9 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
         private static void Main(string[] args)
         {
             br = new BinaryReader(File.OpenRead(args[0]));
-            br.ReadChars(15);//"Ratalaika Games"
+            if (new string(br.ReadChars(15)) != "Ratalaika Games")
+                throw new Exception("This is not a Spiller Engine \"assets.rgf\" file.");
+            
             br.BaseStream.Position = 32;
             int ZLibSize = br.ReadInt32();
             int unknown1 = br.ReadInt32();
