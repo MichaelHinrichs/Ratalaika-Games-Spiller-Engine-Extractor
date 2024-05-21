@@ -42,22 +42,19 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
 
             br = new(fileTable);
             br.BaseStream.Position = 0;
-            System.Collections.Generic.List<FileTableEntry> table = new();
-            while (br.BaseStream.Position < br.BaseStream.Length)
-                table.Add(new());
-            br.Close();
-
-            br = new(fileData);
+            BinaryReader data = new(fileData);
             string path = Path.GetDirectoryName(args[0]) + "\\" + Path.GetFileNameWithoutExtension(args[0]) + "\\";
-            foreach(FileTableEntry file in table)
+
+            while (br.BaseStream.Position < br.BaseStream.Length)
             {
-                br.BaseStream.Position = file.end - file.Size;
+                FileTableEntry file = new();
+                data.BaseStream.Position = file.end - file.Size;
                 Directory.CreateDirectory(path + Path.GetDirectoryName(file.name));
-                using FileStream FS = File.Create(path + file.name);
-                BinaryWriter bw = new(FS);
-                bw.Write(br.ReadBytes(file.Size));
+                BinaryWriter bw = new(File.Create(path + file.name));
+                bw.Write(data.ReadBytes(file.Size));
                 bw.Close();
             }
+            data.Close();
             br.Close();
         }
 
