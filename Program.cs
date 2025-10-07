@@ -63,9 +63,9 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
             public readonly string name = NullTerminatedString();
             public readonly int size = br.ReadInt32();
             public readonly int end = br.ReadInt32();
+            readonly int decompressedSize = br.ReadInt32();
             readonly int unknown1 = br.ReadInt32();
             readonly int unknown2 = br.ReadInt32();
-            readonly int unknown3 = br.ReadInt32();
         }
 
         public static string NullTerminatedString()
@@ -84,4 +84,5 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
         }
     }
 }
+
 
