@@ -48,10 +48,10 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
             while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 FileTableEntry file = new();
-                data.BaseStream.Position = file.end - file.Size;
+                data.BaseStream.Position = file.end - file.size;
                 Directory.CreateDirectory(path + Path.GetDirectoryName(file.name));
                 BinaryWriter bw = new(File.Create(path + file.name));
-                bw.Write(data.ReadBytes(file.Size));
+                bw.Write(data.ReadBytes(file.size));
                 bw.Close();
             }
             data.Close();
@@ -61,7 +61,7 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
         class FileTableEntry
         {
             public readonly string name = NullTerminatedString();
-            public readonly int Size = br.ReadInt32();
+            public readonly int size = br.ReadInt32();
             public readonly int end = br.ReadInt32();
             readonly int unknown1 = br.ReadInt32();
             readonly int unknown2 = br.ReadInt32();
@@ -84,3 +84,4 @@ namespace Ratalaika_Games_Spiller_Engine_Extractor
         }
     }
 }
+
